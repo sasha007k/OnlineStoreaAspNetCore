@@ -7,6 +7,6 @@ namespace OnlineStore.Models
 {
     public class ProductsViewModel
     {
-        public IEnumerable<PhoneModel> phones { get; set; }
+        public IEnumerable<PhoneModel> Phones { get; set; }
     }
 }

@@ -24,14 +24,25 @@ namespace OnlineStore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Phones(string searchString, string sortOrder)
+        public async Task<IActionResult> Phones(string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
             var phones = from p in dbContext.Phones
                          select p;
 
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["BrandSortParm"] = String.IsNullOrEmpty(sortOrder) ? "BrandDesc" : "";
             ViewData["ModelSortParm"] = sortOrder == "Model" ? "ModelDesc" : "Model";
             ViewData["PriceSortParm"] = sortOrder == "Price" ? "PriceDesc" : "Price";
+
+            if(searchString != null)
+    {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
 
             switch (sortOrder)
             {
@@ -61,8 +72,9 @@ namespace OnlineStore.Controllers
                                        || p.Model.Contains(searchString));
             }
 
-            
-            return View(await phones.AsNoTracking().ToListAsync());
+
+            int pageSize = 4;
+            return View(await PaginatedList<PhoneModel>.CreateAsync(phones.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
     
         [ValidateAntiForgeryToken]

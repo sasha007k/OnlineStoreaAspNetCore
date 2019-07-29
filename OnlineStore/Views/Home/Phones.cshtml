@@ -1,5 +1,5 @@
 ﻿@using OnlineStore.Models
-@model IEnumerable<OnlineStore.Models.PhoneModel>
+@model PaginatedList<OnlineStore.Models.PhoneModel>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -22,13 +22,13 @@
     <thead>
         <tr>
             <td>
-                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["BrandSortParm"]">@Html.DisplayNameFor(model => model.Brand)</a></b>
+                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["BrandSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Brand</a></b>
             </td>
             <td>
-                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["ModelSortParm"]">@Html.DisplayNameFor(model => model.Model)</a></b>
+                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["ModelSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Model</a></b>
             </td>
             <td>
-                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["PriceSortParm"]">@Html.DisplayNameFor(model => model.Price)</a></b>
+                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Price</a></b>
             </td>
             <td><b>Delete</b></td>
         </tr>
@@ -37,9 +37,9 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.Brand)</td>
-            <td>@Html.DisplayFor(modelItem => item.Model)</td>
-            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+            <td>Brand</td>
+            <td>Model</td>
+            <td>Price</td>
             <td>
                 <form asp-action="DeletePhone" method="POST">
                     <input type="hidden" name="id" value="@item.ID">
@@ -53,3 +53,23 @@
 <div>
     @await Html.PartialAsync("PhonePartial", new OnlineStore.Models.PhoneModel())
 </div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Phones"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Phones"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
