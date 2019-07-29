@@ -1,0 +1,36 @@
+﻿@model OnlineStore.Models.PhoneModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<form asp-action="AddPhone" method="POST">
+    <label asp-for="Brand">Brand:</label>
+    <input asp-for="Brand">
+    <label asp-for="Model">Model:</label>
+    <input asp-for="Model">
+    <label asp-for="Price">Price:</label>
+    <input asp-for="Price" type="number" min="0.00" max="10000.00" step="0.01">
+    <button type="submit">Add</button>
+</form>
+
+@*<form asp-action="AddPhone" method="POST">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputgroup-sizing-default">Brand</span>
+        </div>
+        <input asp-for="Brand" type="text" class="form-control" aria-label="default" aria-describedby="inputgroup-sizing-default">
+
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputgroup-sizing-default">Model</span>
+        </div>
+        <input asp-for="Model" type="text" class="form-control" aria-label="default" aria-describedby="inputgroup-sizing-default">
+
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputgroup-sizing-default">Price</span>
+        </div>
+        <input asp-for="Price" type="number" min="0.00" step="0.01" class="form-control" aria-label="default" aria-describedby="inputgroup-sizing-default">
+        <div class="input-group-append">
+            <span class="input-group-text">$</span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-secondary btn-lg btn-block">Add</button>
+</form>*@

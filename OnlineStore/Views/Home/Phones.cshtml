@@ -1,0 +1,55 @@
+﻿@using OnlineStore.Models
+@model IEnumerable<OnlineStore.Models.PhoneModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Phones";
+}
+
+<h1 align="center">@ViewData["Title"]</h1>
+
+<form asp-action="Phones" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Phones">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>
+                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["BrandSortParm"]">@Html.DisplayNameFor(model => model.Brand)</a></b>
+            </td>
+            <td>
+                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["ModelSortParm"]">@Html.DisplayNameFor(model => model.Model)</a></b>
+            </td>
+            <td>
+                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["PriceSortParm"]">@Html.DisplayNameFor(model => model.Price)</a></b>
+            </td>
+            <td><b>Delete</b></td>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Brand)</td>
+            <td>@Html.DisplayFor(modelItem => item.Model)</td>
+            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+            <td>
+                <form asp-action="DeletePhone" method="POST">
+                    <input type="hidden" name="id" value="@item.ID">
+                    <button>X</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<div>
+    @await Html.PartialAsync("PhonePartial", new OnlineStore.Models.PhoneModel())
+</div>
