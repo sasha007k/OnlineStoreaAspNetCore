@@ -1,18 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OnlineStore.Data;
+using OnlineStore.Services;
 using OnlineStore.Models;
 
 namespace OnlineStore.Controllers
 {
     public class HomeController : Controller
     {
-        ApplicationDbContext dbContext = new ApplicationDbContext();
+        private readonly IPhoneModelService phoneModelService;
+
+        public HomeController(IPhoneModelService phoneModelService)
+        {
+            this.phoneModelService = phoneModelService;
+        }
 
         public IActionResult Index()
         {
@@ -26,8 +29,7 @@ namespace OnlineStore.Controllers
 
         public async Task<IActionResult> Phones(string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
-            var phones = from p in dbContext.Phones
-                         select p;
+            var phones = await phoneModelService.GetAllItemsAsync();
 
             ViewData["CurrentSort"] = sortOrder;
             ViewData["BrandSortParm"] = String.IsNullOrEmpty(sortOrder) ? "BrandDesc" : "";
@@ -74,7 +76,7 @@ namespace OnlineStore.Controllers
 
 
             int pageSize = 4;
-            return View(await PaginatedList<PhoneModel>.CreateAsync(phones.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(await PaginatedList<PhoneModel>.CreateAsync(phones, pageNumber ?? 1, pageSize));
         }
     
         [ValidateAntiForgeryToken]
@@ -85,10 +87,12 @@ namespace OnlineStore.Controllers
                 return RedirectToAction("Phones");
             }
 
-            newPhone.ID = Guid.NewGuid();
-            dbContext.Phones.Add(newPhone);
-            await dbContext.SaveChangesAsync();
-            
+            var successful = await phoneModelService.AddPhoneAsync(newPhone);
+            if (!successful)
+            {
+                return BadRequest("Could not add phone.");
+            }
+
             return RedirectToAction("Phones");
         }
 
@@ -100,13 +104,11 @@ namespace OnlineStore.Controllers
                 return RedirectToAction("Phones");
             }
 
-            var product = await dbContext.Phones
-                .Where(x => x.ID == id)
-                .AsNoTracking()
-                .SingleOrDefaultAsync();
-
-            dbContext.Phones.Remove(product);
-            await dbContext.SaveChangesAsync();
+            var successful = await phoneModelService.DeletePhoneAsync(id);
+            if (!successful)
+            {
+                return BadRequest("Could not delete this phone.");
+            }
 
             return RedirectToAction("Phones");
         }        

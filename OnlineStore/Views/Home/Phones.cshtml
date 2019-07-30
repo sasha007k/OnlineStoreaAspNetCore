@@ -37,9 +37,9 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>Brand</td>
-            <td>Model</td>
-            <td>Price</td>
+            <td>@item.Brand</td>
+            <td>@item.Model</td>
+            <td>@item.Price</td>
             <td>
                 <form asp-action="DeletePhone" method="POST">
                     <input type="hidden" name="id" value="@item.ID">
