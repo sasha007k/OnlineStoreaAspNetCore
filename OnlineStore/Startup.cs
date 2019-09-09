@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineStore.Data;
 using OnlineStore.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace OnlineStore
 {
@@ -28,9 +31,42 @@ namespace OnlineStore
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //        .AddJwtBearer(options =>
+            //        {
+            //            options.RequireHttpsMetadata = false;
+            //            options.TokenValidationParameters = new TokenValidationParameters
+            //            {
+            //                // вказує, чи буде затверджувати видавець при валідації токена
+            //                ValidateIssuer = true,
+            //                // рядок, що представляє видавця
+            //                ValidIssuer = AuthOptions.ISSUER,
+
+            //                // чи буде затверджуватися користувач токена
+            //                ValidateAudience = true,
+            //                // установка користувача токена
+            //                ValidAudience = AuthOptions.AUDIENCE,
+            //                // чи буде встановлюватися час існування
+            //                ValidateLifetime = true,
+
+            //                // установка ключа безпеки
+            //                IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            //                // валідація ключа безпеки
+            //                ValidateIssuerSigningKey = true,
+            //            };
+            //        });
+
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                    options.AccessDeniedPath = new PathString("/Account/Login");
+                });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IPhoneModelService, PhoneModelService>();
+            services.AddScoped<IUserModelService, UserModelService>();
             services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>();
         }
 
@@ -44,13 +80,14 @@ namespace OnlineStore
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

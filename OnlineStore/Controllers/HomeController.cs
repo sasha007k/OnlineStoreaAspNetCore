@@ -5,28 +5,33 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Services;
 using OnlineStore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineStore.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
-        private readonly IPhoneModelService phoneModelService;
+        private readonly IPhoneModelService phoneModelService;        
 
         public HomeController(IPhoneModelService phoneModelService)
         {
             this.phoneModelService = phoneModelService;
-        }
+        }       
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Phones(string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
             var phones = await phoneModelService.GetAllItemsAsync();
@@ -80,6 +85,7 @@ namespace OnlineStore.Controllers
         }
     
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddPhone(PhoneModel newPhone)
         {
             if (!ModelState.IsValid)
@@ -97,6 +103,7 @@ namespace OnlineStore.Controllers
         }
 
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeletePhone(Guid id)
         {
             if (id == Guid.Empty)
@@ -117,6 +124,6 @@ namespace OnlineStore.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        }        
     }
 }

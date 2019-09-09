@@ -1,0 +1,40 @@
+﻿@model OnlineStore.Models.RoleModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "Show Users";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Show Users</title>
+</head>
+<body>
+    <div class="panel panel-default todo-panel">
+        <div class="panel-heading">@ViewData["Title"]</div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>Email</td>
+                    <td>Password</td>
+                    <td>Role</td>
+                </tr>
+            </thead>
+
+            @foreach (var item in Model.Users)
+            {
+            <tr>
+                <td>@item.Email</td>
+                <td>@item.Password</td>
+                <td>@item.Role</td>
+            </tr>
+            }
+        </table>        
+    </div>
+</body>
+</html>
+
