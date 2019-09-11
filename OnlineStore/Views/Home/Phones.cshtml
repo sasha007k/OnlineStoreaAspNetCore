@@ -30,23 +30,27 @@
             <td>
                 <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Price</a></b>
             </td>
+            <td>
+                <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Discount Price</a></b>
+            </td>
             <td><b>Delete</b></td>
         </tr>
     </thead>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.Brand</td>
-            <td>@item.Model</td>
-            <td>@item.Price</td>
-            <td>
-                <form asp-action="DeletePhone" method="POST">
-                    <input type="hidden" name="id" value="@item.ID">
-                    <button>X</button>
-                </form>
-            </td>
-        </tr>
+    <tr>
+        <td>@item.Brand</td>
+        <td>@item.Model</td>
+        <td>@item.Price</td>
+        <td>@(@item.Price * ((100 - @item.Discount) / 100))</td>
+        <td>
+            <form asp-action="DeletePhone" method="POST">
+                <input type="hidden" name="id" value="@item.ID">
+                <button>X</button>
+            </form>
+        </td>
+    </tr>
     }
 </table>
 

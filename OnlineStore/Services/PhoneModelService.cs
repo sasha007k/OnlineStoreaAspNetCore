@@ -33,6 +33,27 @@ namespace OnlineStore.Services
             return saveResult == 1;
         }
 
+        public async Task<bool> CreateDiscountAsync(PhoneModel newPhone)
+        {
+            var newPhones = new List<PhoneModel>();
+
+            foreach (var item in context.Phones)
+            {
+                if (item.Brand == newPhone.Brand)
+                {
+                    item.Discount = newPhone.Discount;
+                    newPhones.Add(item);
+                    context.Phones.Remove(item);
+                    context.SaveChanges();
+                }
+            }
+
+            await context.Phones.AddRangeAsync(newPhones);
+
+            var saveResult = await context.SaveChangesAsync();
+            return saveResult >= 1;
+        }
+
         public async Task<bool> DeletePhoneAsync(Guid id)
         {
             var product = await context.Phones

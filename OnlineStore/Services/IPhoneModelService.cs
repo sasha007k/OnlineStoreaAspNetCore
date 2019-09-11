@@ -11,6 +11,8 @@ namespace OnlineStore.Services
 
         Task<bool> AddPhoneAsync(PhoneModel newPhone);
 
+        Task<bool> CreateDiscountAsync(PhoneModel newPhone);
+
         Task<bool> DeletePhoneAsync(Guid id);
     }
 }

@@ -9,8 +9,8 @@ using OnlineStore.Data;
 namespace OnlineStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190908103120_InatialCreate")]
-    partial class InatialCreate
+    [Migration("20190909200033_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,6 +25,8 @@ namespace OnlineStore.Migrations
 
                     b.Property<string>("Brand")
                         .IsRequired();
+
+                    b.Property<double>("Discount");
 
                     b.Property<string>("Model")
                         .IsRequired();

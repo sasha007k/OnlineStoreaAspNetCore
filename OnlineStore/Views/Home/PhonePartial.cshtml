@@ -24,3 +24,27 @@
 
     <button type="submit" class="btn btn-secondary btn-lg btn-block">Add</button>
 </form>
+
+<form asp-action="CreateDiscount" method="POST">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputgroup-sizing-default">Brand</span>
+        </div>
+        <input asp-for="Brand" type="text" class="form-control" aria-label="default" aria-describedby="inputgroup-sizing-default">
+
+        @*<div class="input-group-prepend">
+            <span class="input-group-text" id="inputgroup-sizing-default">Model</span>
+        </div>
+        <input asp-for="Model" type="text" class="form-control" aria-label="default" aria-describedby="inputgroup-sizing-default">*@
+
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputgroup-sizing-default">Discount</span>
+        </div>
+        <input asp-for="Discount" type="number" min="0.00" step="0.01" max="100.00" class="form-control" aria-label="default" aria-describedby="inputgroup-sizing-default">
+        <div class="input-group-append">
+            <span class="input-group-text">%</span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-secondary btn-lg btn-block">Apply</button>
+</form>

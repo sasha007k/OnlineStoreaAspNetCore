@@ -24,6 +24,8 @@ namespace OnlineStore.Migrations
                     b.Property<string>("Brand")
                         .IsRequired();
 
+                    b.Property<double>("Discount");
+
                     b.Property<string>("Model")
                         .IsRequired();
 

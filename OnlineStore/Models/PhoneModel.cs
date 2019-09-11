@@ -12,5 +12,7 @@ namespace OnlineStore.Models
         public string Model { get; set; }
         [Required]
         public double Price { get; set; }
+        [Required]
+        public double Discount { get; set; }
     }
 }

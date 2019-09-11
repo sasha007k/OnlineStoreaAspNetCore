@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineStore.Migrations
 {
-    public partial class InatialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace OnlineStore.Migrations
                     ID = table.Column<Guid>(nullable: false),
                     Brand = table.Column<string>(nullable: false),
                     Model = table.Column<string>(nullable: false),
-                    Price = table.Column<double>(nullable: false)
+                    Price = table.Column<double>(nullable: false),
+                    Discount = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {

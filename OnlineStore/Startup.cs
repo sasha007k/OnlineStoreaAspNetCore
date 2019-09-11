@@ -31,31 +31,6 @@ namespace OnlineStore
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //        .AddJwtBearer(options =>
-            //        {
-            //            options.RequireHttpsMetadata = false;
-            //            options.TokenValidationParameters = new TokenValidationParameters
-            //            {
-            //                // вказує, чи буде затверджувати видавець при валідації токена
-            //                ValidateIssuer = true,
-            //                // рядок, що представляє видавця
-            //                ValidIssuer = AuthOptions.ISSUER,
-
-            //                // чи буде затверджуватися користувач токена
-            //                ValidateAudience = true,
-            //                // установка користувача токена
-            //                ValidAudience = AuthOptions.AUDIENCE,
-            //                // чи буде встановлюватися час існування
-            //                ValidateLifetime = true,
-
-            //                // установка ключа безпеки
-            //                IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-            //                // валідація ключа безпеки
-            //                ValidateIssuerSigningKey = true,
-            //            };
-            //        });
-
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

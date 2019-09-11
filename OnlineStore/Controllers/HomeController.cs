@@ -104,6 +104,19 @@ namespace OnlineStore.Controllers
 
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
+        public async Task<IActionResult> CreateDiscount(PhoneModel newPhone)
+        {
+            var successful = await phoneModelService.CreateDiscountAsync(newPhone);
+            if (!successful)
+            {
+                return BadRequest("Could not create discount.");
+            }
+
+            return RedirectToAction("Phones");
+        }
+
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeletePhone(Guid id)
         {
             if (id == Guid.Empty)
